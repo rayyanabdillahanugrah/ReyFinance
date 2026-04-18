@@ -435,7 +435,6 @@ function renderPieChart() {
   canvas.style.display = 'block';
   emptyEl.style.display = 'none';
 
-  // Aggregate by category
   const catMap = {};
   expenses.forEach(tx => {
     catMap[tx.category] = (catMap[tx.category] || 0) + tx.total;
@@ -483,7 +482,6 @@ function renderPieChart() {
     }
   });
 
-  // Build legend
   legendEl.innerHTML = labels.map((label, i) => `
     <div class="pie-legend-item">
       <div class="pie-legend-dot" style="background:${colors[i]}"></div>

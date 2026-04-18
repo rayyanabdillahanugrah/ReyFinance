@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ReyFinance — AI Financial Advisor</title>
+  <title>ReyFinance</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -12,7 +12,6 @@
 </head>
 <body>
 
-  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
       <div class="logo-icon">
@@ -65,13 +64,10 @@
     </div>
   </aside>
 
-  <!-- MOBILE OVERLAY -->
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
-  <!-- MAIN CONTENT -->
   <main class="main-content" id="mainContent">
 
-    <!-- TOP BAR -->
     <header class="topbar">
       <div class="topbar-left">
         <button class="hamburger" id="hamburgerBtn" onclick="toggleSidebar()">
@@ -92,10 +88,8 @@
       </div>
     </header>
 
-    <!-- ========== PAGE: DASHBOARD ========== -->
     <section class="page active" id="page-dashboard">
 
-      <!-- STAT CARDS -->
       <div class="stats-grid">
         <div class="stat-card stat-card--dark">
           <span class="stat-label">SALDO BERSIH</span>
@@ -161,7 +155,6 @@
         </div>
       </div>
 
-      <!-- RECENT TRANSACTIONS ON DASHBOARD -->
       <div class="section-card">
         <div class="section-header">
           <h3>Transaksi Terbaru</h3>
@@ -176,7 +169,6 @@
       </div>
     </section>
 
-    <!-- ========== PAGE: TRANSAKSI ========== -->
     <section class="page" id="page-transaksi">
       <div class="section-card">
         <div class="section-header">
@@ -217,13 +209,12 @@
           </table>
           <div class="empty-state" id="transactionEmpty">
             <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.25"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
-            <p>Belum ada transaksi. Klik "+ Tambah Transaksi" untuk memulai.</p>
+            <p>Belum ada transaksi. Klik "Tambah Transaksi" untuk memulai.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ========== PAGE: AI ADVISOR ========== -->
     <section class="page" id="page-ai-advisor">
       <div class="ai-hero">
         <div class="ai-hero-icon">
@@ -307,7 +298,6 @@
       </div>
     </section>
 
-    <!-- ========== PAGE: API SETTINGS ========== -->
     <section class="page" id="page-api-settings">
       <div class="settings-container">
         <div class="settings-card">
@@ -315,7 +305,7 @@
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
           </div>
           <h2>Konfigurasi OpenAI API</h2>
-          <p>Masukkan API Key Anda untuk mengaktifkan fitur AI Financial Advisor. Key disimpan hanya di browser Anda (localStorage).</p>
+          <p>Masukkan API Key Anda untuk mengaktifkan fitur AI Financial Advisor. Key disimpan hanya di browser Anda (localStorage). Fitur ini dapat menimbulkan tagihan ke akun anda, pastikan anda memiliki cukup saldo!</p>
 
           <div class="settings-form">
             <div class="form-group">
@@ -365,7 +355,6 @@
 
   </main>
 
-  <!-- ========== MODAL TAMBAH TRANSAKSI ========== -->
   <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
     <div class="modal" id="modal">
       <div class="modal-header">
@@ -376,7 +365,6 @@
       </div>
 
       <div class="modal-body">
-        <!-- TIPE TOGGLE -->
         <div class="type-toggle">
           <button class="type-btn active" id="typeIncome" onclick="setTransactionType('pemasukan')">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
@@ -448,7 +436,6 @@
           </div>
         </div>
 
-        <!-- TOTAL CALCULATOR -->
         <div class="total-preview">
           <div class="total-row">
             <span>Nominal</span>
@@ -479,7 +466,6 @@
     </div>
   </div>
 
-  <!-- ========== CONFIRM MODAL ========== -->
   <div class="modal-overlay" id="confirmOverlay">
     <div class="modal modal--sm" id="confirmModal">
       <div class="modal-header">
@@ -495,7 +481,6 @@
     </div>
   </div>
 
-  <!-- TOAST NOTIFICATION -->
   <div class="toast-container" id="toastContainer"></div>
 
   <script src="script.js"></script>

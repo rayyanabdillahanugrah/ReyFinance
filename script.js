@@ -1,22 +1,10 @@
-/* =============================================
-   REYFINANCE — script.js
-   Main application logic
-   ============================================= */
-
 'use strict';
-
-/* ============================================
-   CONSTANTS & CONFIG
-   ============================================ */
-
-// 15 professional, distinguishable colors for pie chart
 const PIE_COLORS = [
   '#2D9864', '#3B82F6', '#F59E0B', '#EF4444', '#8B5CF6',
   '#06B6D4', '#F97316', '#EC4899', '#14B8A6', '#A3E635',
   '#6366F1', '#FB923C', '#34D399', '#F472B6', '#60A5FA'
 ];
 
-// Category icons (emoji)
 const CATEGORY_ICONS = {
   'Gaji': '💰', 'Freelance': '💻', 'Investasi': '📈',
   'Bisnis': '🏢', 'Hadiah': '🎁', 'Lainnya Masuk': '➕',
@@ -26,10 +14,6 @@ const CATEGORY_ICONS = {
   'Tabungan': '🏦', 'Lainnya Keluar': '💸'
 };
 
-/* ============================================
-   STATE
-   ============================================ */
-
 let transactions = [];
 let currentPage = 'dashboard';
 let currentType = 'pemasukan';
@@ -37,24 +21,15 @@ let barChartInstance = null;
 let pieChartInstance = null;
 let confirmCallback = null;
 
-/* ============================================
-   INIT
-   ============================================ */
-
 document.addEventListener('DOMContentLoaded', () => {
   loadFromStorage();
   setPageDate();
   loadApiSettings();
   navigateTo('dashboard');
 
-  // Set default date to today
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('txDate').value = today;
 });
-
-/* ============================================
-   STORAGE
-   ============================================ */
 
 function loadFromStorage() {
   try {
@@ -109,24 +84,18 @@ function toggleApiKeyVisibility() {
   input.type = input.type === 'password' ? 'text' : 'password';
 }
 
-/* ============================================
-   NAVIGATION
-   ============================================ */
 
 function navigateTo(page) {
   currentPage = page;
 
-  // Update nav items
   document.querySelectorAll('.nav-item').forEach(item => {
     item.classList.toggle('active', item.dataset.page === page);
   });
 
-  // Show/hide pages
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const pageEl = document.getElementById(`page-${page}`);
   if (pageEl) pageEl.classList.add('active');
 
-  // Update page title
   const titles = {
     'dashboard': 'Dashboard',
     'transaksi': 'Transaksi',
@@ -135,7 +104,6 @@ function navigateTo(page) {
   };
   document.getElementById('pageTitle').textContent = titles[page] || page;
 
-  // Refresh content
   if (page === 'dashboard') renderDashboard();
   if (page === 'transaksi') renderTransactionTable();
 
@@ -148,9 +116,6 @@ function setPageDate() {
   document.getElementById('pageSubtitle').textContent = now.toLocaleDateString('id-ID', options);
 }
 
-/* ============================================
-   SIDEBAR (mobile)
-   ============================================ */
 
 function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('open');
@@ -162,15 +127,10 @@ function closeSidebar() {
   document.getElementById('sidebarOverlay').classList.remove('open');
 }
 
-/* ============================================
-   MODAL — ADD TRANSACTION
-   ============================================ */
 
 function openModal() {
   document.getElementById('modalOverlay').classList.add('open');
-  // Set today's date
   document.getElementById('txDate').value = new Date().toISOString().split('T')[0];
-  // Reset form
   resetModalForm();
 }
 
@@ -232,7 +192,6 @@ function saveTransaction() {
   const fee      = parseFloat(document.getElementById('txFee').value)    || 0;
   const note     = document.getElementById('txNote').value.trim();
 
-  // Validation
   if (!name)     { showToast('Nama transaksi wajib diisi.', 'error'); return; }
   if (!amount || amount <= 0) { showToast('Nominal harus lebih dari 0.', 'error'); return; }
   if (!date)     { showToast('Tanggal wajib diisi.', 'error'); return; }
@@ -261,14 +220,10 @@ function saveTransaction() {
   closeModal();
   showToast(`Transaksi "${name}" berhasil disimpan!`, 'success');
 
-  // Refresh current page
   if (currentPage === 'dashboard') renderDashboard();
   if (currentPage === 'transaksi') renderTransactionTable();
 }
 
-/* ============================================
-   CONFIRM MODAL
-   ============================================ */
 
 function openConfirm(title, message, onConfirm, confirmText = 'Hapus', isDanger = true) {
   document.getElementById('confirmTitle').textContent   = title;
@@ -294,9 +249,6 @@ document.getElementById('confirmOverlay').addEventListener('click', (e) => {
   if (e.target === document.getElementById('confirmOverlay')) closeConfirm();
 });
 
-/* ============================================
-   DELETE TRANSACTION
-   ============================================ */
 
 function deleteTransaction(id) {
   const tx = transactions.find(t => t.id === id);
@@ -332,12 +284,8 @@ function confirmResetAll() {
   );
 }
 
-/* ============================================
-   DASHBOARD RENDER
-   ============================================ */
 
 function renderDashboard() {
-  // Calculate stats
   const incomeList   = transactions.filter(t => t.type === 'pemasukan');
   const expenseList  = transactions.filter(t => t.type === 'pengeluaran');
   const totalIncome  = incomeList.reduce((s, t) => s + t.total, 0);
@@ -346,7 +294,6 @@ function renderDashboard() {
   const savingRate   = totalIncome > 0 ? ((totalIncome - totalExpense) / totalIncome * 100) : 0;
   const clampedRate  = Math.max(0, Math.min(100, savingRate));
 
-  // Saldo bersih card
   const saldoEl = document.getElementById('statSaldo');
   saldoEl.textContent = formatRupiah(Math.abs(netBalance));
   saldoEl.className = 'stat-value ' + (netBalance >= 0 ? 'stat-value--green' : 'stat-value--red');
@@ -360,31 +307,23 @@ function renderDashboard() {
       : `<span style="color:var(--red)">▼ Defisit ${formatRupiah(Math.abs(netBalance))}</span>`;
   }
 
-  // Income
   document.getElementById('statIncome').textContent = formatRupiah(totalIncome);
   document.getElementById('statIncomeSub').textContent = `${incomeList.length} transaksi`;
 
-  // Expense
   document.getElementById('statExpense').textContent = formatRupiah(totalExpense);
   document.getElementById('statExpenseSub').textContent = `${expenseList.length} transaksi`;
 
-  // Saving rate
   document.getElementById('statSavingRate').textContent = `${clampedRate.toFixed(1)}%`;
   document.getElementById('statProgressFill').style.width = `${clampedRate}%`;
   document.getElementById('statSavingDesc').textContent =
     totalIncome > 0 ? `Dari total pemasukan ${formatRupiah(totalIncome)}` : 'Dari total pemasukan';
 
-  // Charts
   renderBarChart();
   renderPieChart();
 
-  // Recent transactions (top 5)
   renderRecentTransactions();
 }
 
-/* ============================================
-   CHARTS
-   ============================================ */
 
 function renderBarChart() {
   const canvas = document.getElementById('barChart');
@@ -400,7 +339,6 @@ function renderBarChart() {
   canvas.style.display = 'block';
   emptyEl.style.display = 'none';
 
-  // Group by month
   const monthlyData = {};
   transactions.forEach(tx => {
     const d = new Date(tx.date);
@@ -554,10 +492,6 @@ function renderPieChart() {
   `).join('');
 }
 
-/* ============================================
-   RECENT TRANSACTIONS (Dashboard)
-   ============================================ */
-
 function renderRecentTransactions() {
   const container = document.getElementById('recentTransactionsList');
   const recent = transactions.slice(0, 5);
@@ -589,9 +523,6 @@ function renderRecentTransactions() {
   }).join('');
 }
 
-/* ============================================
-   TRANSACTION TABLE (Transaksi Page)
-   ============================================ */
 
 let filteredTransactions = [];
 
@@ -671,9 +602,6 @@ function renderTableRows() {
   }).join('');
 }
 
-/* ============================================
-   AI FINANCIAL ADVISOR
-   ============================================ */
 
 async function runAIAnalysis() {
   const apiKey = localStorage.getItem('reyfinance_api_key') || '';
@@ -690,7 +618,6 @@ async function runAIAnalysis() {
     return;
   }
 
-  // Show loading
   document.getElementById('aiLoading').style.display = 'flex';
   document.getElementById('aiResultContainer').style.display = 'none';
   document.getElementById('aiError').style.display = 'none';
@@ -732,7 +659,6 @@ Gunakan angka nyata dari data yang diberikan. Format output dalam JSON terstrukt
     const data = await response.json();
     const raw  = data.choices[0].message.content;
 
-    // Parse JSON from response
     const parsed = parseAIResponse(raw);
     displayAIResult(parsed);
 
@@ -755,7 +681,6 @@ function buildAIPrompt() {
   const netBalance   = totalIncome - totalExpense;
   const savingRate   = totalIncome > 0 ? (netBalance / totalIncome * 100).toFixed(2) : 0;
 
-  // Category breakdown
   const catBreakdown = {};
   expenseList.forEach(tx => {
     catBreakdown[tx.category] = (catBreakdown[tx.category] || 0) + tx.total;
@@ -766,7 +691,6 @@ function buildAIPrompt() {
     .map(([cat, amt]) => `  - ${cat}: Rp ${amt.toLocaleString('id-ID')} (${(amt/totalExpense*100).toFixed(1)}%)`)
     .join('\n');
 
-  // Monthly data
   const monthlyMap = {};
   transactions.forEach(tx => {
     const d = new Date(tx.date);
@@ -838,16 +762,13 @@ Berikan analisis dalam format JSON PERSIS seperti berikut (TANPA markdown, TANPA
 
 function parseAIResponse(raw) {
   try {
-    // Try direct parse first
     const cleaned = raw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
     return JSON.parse(cleaned);
   } catch {
-    // Fallback: extract JSON from response
     const match = raw.match(/\{[\s\S]*\}/);
     if (match) {
       try { return JSON.parse(match[0]); } catch {}
     }
-    // Last resort: return structured fallback
     return {
       overview: {
         summary: raw.substring(0, 300),
@@ -865,7 +786,6 @@ function parseAIResponse(raw) {
 function displayAIResult(data) {
   const { overview, short_term, mid_term, long_term } = data;
 
-  // Overview
   const scoreColor = {
     'Sehat': 'var(--green)', 'Cukup': 'var(--amber)',
     'Perlu Perhatian': 'var(--amber)', 'Kritis': 'var(--red)'
@@ -881,7 +801,6 @@ function displayAIResult(data) {
     <p style="margin-bottom:14px;color:var(--text-secondary)">${overview.summary}</p>
     <ul>${(overview.findings || []).map(f => `<li>${f}</li>`).join('')}</ul>`;
 
-  // Short term
   document.getElementById('aiShortContent').innerHTML = buildSectionHTML({
     'Harus Dikurangi': { items: short_term.reduce, icon: '🔻', color: 'var(--red)' },
     'Dipertahankan':   { items: short_term.maintain, icon: '✅', color: 'var(--green)' },
@@ -889,7 +808,6 @@ function displayAIResult(data) {
     'Langkah Konkret': { items: short_term.action, icon: '⚡', color: 'var(--blue)' }
   });
 
-  // Mid term
   document.getElementById('aiMidContent').innerHTML = `
     ${mid_term.budget_recommendation ? `
       <div style="background:var(--bg);border-radius:8px;padding:12px 14px;margin-bottom:12px;font-size:13px">
@@ -902,7 +820,6 @@ function displayAIResult(data) {
     ${buildListHTML('📅 Target Bulanan', mid_term.targets)}
     ${buildListHTML('💡 Tips Praktis', mid_term.tips)}`;
 
-  // Long term
   document.getElementById('aiLongContent').innerHTML = `
     ${mid_term.emergency_fund || long_term.emergency_fund ? `
       <div style="background:var(--blue-light);border-radius:8px;padding:12px 14px;margin-bottom:12px;font-size:13px">
@@ -916,7 +833,6 @@ function displayAIResult(data) {
         <ul>${long_term.risk_warnings.map(w => `<li style="color:var(--red)">${w}</li>`).join('')}</ul>
       </div>` : ''}`;
 
-  // Show timestamp
   const now = new Date();
   document.getElementById('aiTimestamp').textContent = `Dianalisis pada ${now.toLocaleDateString('id-ID')} pukul ${now.toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'})}`;
 
@@ -945,9 +861,6 @@ function buildListHTML(title, items) {
     </div>`;
 }
 
-/* ============================================
-   TOAST NOTIFICATIONS
-   ============================================ */
 
 function showToast(message, type = 'info') {
   const container = document.getElementById('toastContainer');
@@ -968,9 +881,6 @@ function showToast(message, type = 'info') {
   }, 3500);
 }
 
-/* ============================================
-   UTILITIES
-   ============================================ */
 
 function formatRupiah(amount) {
   if (isNaN(amount)) return 'Rp 0';

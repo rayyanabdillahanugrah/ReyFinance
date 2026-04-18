@@ -794,8 +794,6 @@ body {
 }
 
 .ai-disclaimer {
-  text-align: justify;
-  text-justify: inter-word;
   font-size: 12.5px;
   color: var(--text-muted);
 }
@@ -867,8 +865,6 @@ body {
 .ai-section-icon--purple { background: var(--purple-light); color: var(--purple); }
 
 .ai-section-content {
-  text-align: justify;
-  text-justify: inter-word;
   padding: 18px;
   font-size: 13.5px;
   line-height: 1.75;
@@ -1345,4 +1341,9 @@ body {
 
   .toast-container { left: 16px; right: 16px; }
   .toast { min-width: unset; width: 100%; }
+}
+
+.justify-text {
+  text-align: justify;
+  text-justify: inter-word;
 }

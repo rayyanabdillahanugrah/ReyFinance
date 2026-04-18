@@ -1,9 +1,3 @@
-/* =============================================
-   REYFINANCE — style.css
-   Clean Minimalist Finance Dashboard
-   ============================================= */
-
-/* ---------- CSS VARIABLES ---------- */
 :root {
   --bg: #F7F6F2;
   --bg-card: #FFFFFF;
@@ -54,7 +48,6 @@
   --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
 }
 
-/* ---------- RESET & BASE ---------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; }
@@ -70,15 +63,11 @@ body {
   overflow-x: hidden;
 }
 
-/* ---------- SCROLLBAR ---------- */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
-/* ============================================
-   SIDEBAR
-   ============================================ */
 .sidebar {
   position: fixed;
   top: 0; left: 0;
@@ -190,9 +179,6 @@ body {
   backdrop-filter: blur(2px);
 }
 
-/* ============================================
-   MAIN CONTENT
-   ============================================ */
 .main-content {
   margin-left: var(--sidebar-w);
   flex: 1;
@@ -202,7 +188,6 @@ body {
   transition: var(--transition-slow);
 }
 
-/* ---------- TOPBAR ---------- */
 .topbar {
   position: sticky;
   top: 0;
@@ -264,7 +249,6 @@ body {
   margin-top: 1px;
 }
 
-/* ---------- BUTTONS ---------- */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -366,9 +350,6 @@ body {
 
 .btn-link:hover { color: var(--green-hover); }
 
-/* ============================================
-   PAGES
-   ============================================ */
 .page {
   display: none;
   padding: 28px;
@@ -383,9 +364,6 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ============================================
-   DASHBOARD — STAT CARDS
-   ============================================ */
 .stats-grid {
   display: grid;
   grid-template-columns: 1.4fr 1fr 1fr 1fr;
@@ -477,9 +455,6 @@ body {
   transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ============================================
-   CHARTS
-   ============================================ */
 .charts-grid {
   display: grid;
   grid-template-columns: 1.8fr 1fr;
@@ -549,7 +524,6 @@ body {
   font-size: 13px;
 }
 
-/* PIE LEGEND */
 .pie-legend {
   display: flex;
   flex-wrap: wrap;
@@ -572,9 +546,6 @@ body {
   flex-shrink: 0;
 }
 
-/* ============================================
-   SECTION CARDS
-   ============================================ */
 .section-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -606,9 +577,6 @@ body {
   flex-wrap: wrap;
 }
 
-/* ============================================
-   TRANSACTION LIST (Dashboard)
-   ============================================ */
 .tx-item {
   display: flex;
   align-items: center;
@@ -662,9 +630,6 @@ body {
 .tx-amount--in  { color: var(--green); }
 .tx-amount--out { color: var(--red);   }
 
-/* ============================================
-   TRANSACTION TABLE
-   ============================================ */
 .table-wrapper {
   overflow-x: auto;
   border-radius: var(--radius-sm);
@@ -751,9 +716,6 @@ body {
 
 .btn-delete-row:hover { background: var(--red-light); color: var(--red); }
 
-/* ============================================
-   SEARCH & FILTER
-   ============================================ */
 .search-input, .filter-select {
   height: 36px;
   padding: 0 12px;
@@ -776,9 +738,6 @@ body {
   box-shadow: 0 0 0 3px var(--green-muted);
 }
 
-/* ============================================
-   EMPTY STATE
-   ============================================ */
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -791,9 +750,6 @@ body {
   text-align: center;
 }
 
-/* ============================================
-   AI ADVISOR PAGE
-   ============================================ */
 .ai-hero {
   display: flex;
   align-items: center;
@@ -961,9 +917,6 @@ body {
   animation: fadeIn 0.3s ease;
 }
 
-/* ============================================
-   SETTINGS PAGE
-   ============================================ */
 .settings-container {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
@@ -1057,9 +1010,6 @@ body {
   line-height: 1.5;
 }
 
-/* ============================================
-   FORM COMPONENTS
-   ============================================ */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -1136,9 +1086,6 @@ body {
 
 .btn-toggle-key:hover { color: var(--text-primary); }
 
-/* ============================================
-   MODAL
-   ============================================ */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -1211,7 +1158,6 @@ body {
   border-top: 1px solid var(--border-light);
 }
 
-/* TYPE TOGGLE */
 .type-toggle {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1256,7 +1202,6 @@ body {
   margin-bottom: 18px;
 }
 
-/* TOTAL PREVIEW */
 .total-preview {
   background: var(--bg);
   border-radius: var(--radius-sm);
@@ -1282,9 +1227,6 @@ body {
   color: var(--text-primary);
 }
 
-/* ============================================
-   TOAST NOTIFICATIONS
-   ============================================ */
 .toast-container {
   position: fixed;
   bottom: 24px;
@@ -1327,9 +1269,6 @@ body {
   to   { opacity: 0; transform: translateX(20px); }
 }
 
-/* ============================================
-   RESPONSIVE — TABLET
-   ============================================ */
 @media (max-width: 1100px) {
   .stats-grid { grid-template-columns: 1fr 1fr; }
   .charts-grid { grid-template-columns: 1fr; }
@@ -1340,9 +1279,6 @@ body {
   :root { --sidebar-w: 220px; }
 }
 
-/* ============================================
-   RESPONSIVE — MOBILE
-   ============================================ */
 @media (max-width: 768px) {
   :root { --sidebar-w: 260px; }
 
